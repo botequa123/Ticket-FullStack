@@ -1,0 +1,132 @@
+.Home-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.Home-navbar {
+    background-color: #f5fd0110;
+    color: rgb(17, 25, 240);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Home-navbar-left {
+    background-color: #025ff5;
+    border: none;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    left: 10px;
+    transition: background-color 0.3s;
+}
+
+.Home-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.Home-logout-button {
+    background-color: #ff4d4f;
+    border: none;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    right: 10px;
+    transition: background-color 0.3s;
+}
+
+.Home-logout-button:hover {
+    background-color: #ff7875;
+}
+
+.Home-sidebar {
+    width: 200px;
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    height: 100%;
+    top: 78px;
+}
+
+.Home-management-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.Home-management-menu-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.Home-management-menu-item:hover {
+    background-color: #495057;
+}
+
+.Home-management-menu-item svg {
+    margin-right: 8px;
+}
+
+.Home-content {
+    margin-left: 220px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+th,
+td {
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+select {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #ffffff;
+    transition: border-color 0.3s;
+}
+
+select:focus {
+    border-color: #007bff;
+}
+
+h1 {
+    color: #343a40;
+    text-align: center;
+}
+
+.Home-content h1 {
+    margin-bottom: 20px;
+    color: #007bff;
+}

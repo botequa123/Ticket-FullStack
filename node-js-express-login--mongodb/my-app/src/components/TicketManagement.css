@@ -1,0 +1,257 @@
+.ticket-management-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.ticket-management-navbar {
+    background-color: #f5fd0110;
+    color: rgb(17, 25, 240);
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-management-navbar-left {
+    background-color: #025ff5;
+    border: none;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    left: 10px;
+    transition: background-color 0.3s;
+}
+
+.ticket-management-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.ticket-management-logout-button {
+    background-color: #ff4d4f;
+    border: none;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    position: absolute;
+    right: 10px;
+    transition: background-color 0.3s;
+}
+
+.ticket-management-sidebar {
+    width: 200px;
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    height: 100%;
+    top: 78px;
+}
+
+.ticket-management-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.ticket-management-menu-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.ticket-management-menu-item:hover {
+    background-color: #495057;
+}
+
+.ticket-management-menu-item svg {
+    margin-right: 8px;
+}
+
+.ticket-management-content {
+    margin-left: 220px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+}
+
+.selected-row {
+    background-color: #48dfd7;
+}
+
+th,
+td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    color: #000000;
+}
+
+th {
+    background-color: #03adf6;
+}
+
+.priority-low {
+    background-color: rgb(1, 204, 255);
+}
+
+.priority-medium {
+    background-color: yellow;
+}
+
+.priority-high {
+    background-color: red;
+}
+
+.status-chua-xu-ly {
+    background-color: rgb(255, 255, 255);
+    color: rgb(249, 116, 0);
+}
+
+.status-dang-xu-ly {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 125, 10);
+}
+
+.status-da-xu-ly {
+    background-color: rgb(255, 255, 255);
+    color: rgb(251, 46, 46);
+}
+
+select {
+    width: 100%;
+    padding: 4px;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Form styling */
+.ticket-management-form {
+    width: 90%;
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    color: #000000;
+}
+
+.ticket-management-form input,
+.ticket-management-form select {
+    width: calc(100% - 24px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.ticket-management-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1275d8;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ticket-management-form button:hover {
+    background-color: #0056b3;
+}
+
+.actions-button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.actions-button.edit {
+    background-color: #28a745;
+}
+
+.actions-button.edit:hover {
+    background-color: #218838;
+}
+
+.actions-button.delete {
+    background-color: #dc3545;
+}
+
+.actions-button.delete:hover {
+    background-color: #c82333;
+}
+
+.add-ticket-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: absolute;
+    top: 80px;
+    right: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.add-ticket-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
