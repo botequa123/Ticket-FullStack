@@ -3,7 +3,7 @@ import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
-import "./Home.css";
+import "../styles/Home.css";
 
 const Home = () => {
     const [user, setUser] = useState(null);

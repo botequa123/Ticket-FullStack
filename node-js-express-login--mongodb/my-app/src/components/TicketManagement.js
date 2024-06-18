@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
-import "./TicketManagement.css";
+import "../styles/TicketManagement.css";
 
 const TicketManagement = () => {
     const [tickets, setTickets] = useState([]);

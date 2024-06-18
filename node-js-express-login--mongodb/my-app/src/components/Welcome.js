@@ -1,8 +1,8 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import phongphuLogo from '../image/phongphu_logo.jpg'; // Đường dẫn tới logo Phong Phú
-import './Welcome.css'; // Import file CSS
+import phongphuLogo from '../image/phongphu_logo.jpg';
+import '../styles/Welcome.css';
 
 const Welcome = () => {
     return (

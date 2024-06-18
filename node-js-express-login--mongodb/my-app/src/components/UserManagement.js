@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTicketAlt } from '@fortawesome/free-solid-svg-icons';
-import "./UserManagement.css";
+import "../styles/UserManagement.css";
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);

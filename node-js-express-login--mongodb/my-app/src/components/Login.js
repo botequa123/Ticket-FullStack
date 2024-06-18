@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import authService from "../services/auth.service";
 import phongphuLogo from '../image/phongphu_logo.jpg';
-import './Login.css';
+import '../styles/Login.css';
 
 const Login = () => {
     const [username, setUsername] = useState("");
