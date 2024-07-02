@@ -4,8 +4,8 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/";
 
 class UserService {
-    getUsers() {
-        return axios.get(API_URL + 'auth/users', { headers: authHeader() });
+    getUsers(page = 1, limit = 10) {
+        return axios.get(API_URL + `auth/users?page=${page}&limit=${limit}`, { headers: authHeader() });
     }
 
     getRoles() {

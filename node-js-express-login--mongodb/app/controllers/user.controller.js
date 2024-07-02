@@ -2,23 +2,6 @@ const db = require('../models');
 const User = db.user;
 const Role = db.role;
 const bcrypt = require('bcryptjs');
-
-exports.allAccess = (req, res) => {
-    res.status(200).send("Public Content.");
-};
-
-exports.userBoard = (req, res) => {
-    res.status(200).send("User Content.");
-};
-
-exports.adminBoard = (req, res) => {
-    res.status(200).send("Admin Content.");
-};
-
-exports.ITBoard = (req, res) => {
-    res.status(200).send("IT Content.");
-};
-
 exports.userProfile = async (req, res) => {
     try {
         const user = await User.findById(req.userId).populate("roles", "-__v");
@@ -37,9 +20,22 @@ exports.userProfile = async (req, res) => {
 };
 
 exports.getUsers = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+
     try {
-        const users = await User.find().populate("roles", "-__v");
-        res.status(200).send(users);
+        const users = await User.find()
+            .populate("roles", "-__v")
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+
+        const count = await User.countDocuments();
+
+        res.status(200).send({
+            users,
+            totalPages: Math.ceil(count / limit),
+            currentPage: Number(page)
+        });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

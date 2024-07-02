@@ -23,6 +23,12 @@ const TicketSchema = new mongoose.Schema({
     createdDate: {
         type: Date,
         default: Date.now
+    },
+    handlingContent: {
+        type: String
+    },
+    handler: {
+        type: String
     }
 });
 

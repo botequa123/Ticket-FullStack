@@ -1,95 +1,3 @@
-.Home-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #f8f9fa;
-}
-
-.Home-navbar {
-    background-color: #f5fd0110;
-    color: rgb(17, 25, 240);
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.Home-navbar-left {
-    background-color: #025ff5;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    position: absolute;
-    left: 10px;
-    transition: background-color 0.3s;
-}
-
-.Home-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.Home-logout-button {
-    background-color: #ff4d4f;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    position: absolute;
-    right: 10px;
-    transition: background-color 0.3s;
-}
-
-.Home-logout-button:hover {
-    background-color: #ff7875;
-}
-
-.Home-sidebar {
-    width: 200px;
-    background-color: #343a40;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    height: 100%;
-    top: 78px;
-}
-
-.Home-management-menu {
-    list-style: none;
-    padding: 0;
-}
-
-.Home-management-menu-item {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.Home-management-menu-item:hover {
-    background-color: #495057;
-}
-
-.Home-management-menu-item svg {
-    margin-right: 8px;
-}
-
-.Home-content {
-    margin-left: 220px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
 table {
     width: 100%;
     margin: 20px 0;
@@ -129,4 +37,81 @@ h1 {
 .Home-content h1 {
     margin-bottom: 20px;
     color: #007bff;
+}
+
+.b-intro {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link.active {
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+}
+
+.nav-treeview {
+    display: none;
+}
+
+.nav-treeview.open {
+    display: block;
+}
+
+.nav-icon {
+    margin-right: 10px;
+}
+
+
+.right {
+    margin-left: auto;
+}
+
+.submenu {
+    background-color: #333;
+    padding: 0;
+    margin-left: 20px;
+    border-radius: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.submenu.open {
+    max-height: 300px;
+    padding: 10px;
+}
+
+.submenu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px 0;
+}
+
+.submenu a:hover {
+    text-decoration: underline;
+}
+
+.cp-footer {
+    color: #ed1d24;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.info-footer {
+    font-size: 12px;
+    color: #636363;
 }

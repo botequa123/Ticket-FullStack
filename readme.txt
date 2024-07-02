@@ -127,32 +127,31 @@ nếu không nhập mật khẩu, mật khẩu hiện tại sẽ được giữ 
 + Hiển thị thông báo khi không có quyền: Sử dụng SweetAlert để hiển thị thông báo khi người dùng không có quyền sửa hoặc xóa ticket.
 + Thiết lập giá trị mặc định:
 * Giá trị mặc định khi tạo ticket: Khi người dùng có role user, tự động thiết lập giá trị mặc định cho các trường "Bộ phận xử lý", "Ưu tiên", và "Trạng thái" để đảm bảo tất cả các trường đều được nhập vào cơ sở dữ liệu.
-Quản lý thông tin người dùng:
-
-Lấy thông tin người dùng: Khi tạo ticket, thông tin createdBy được lấy từ username của người dùng đang đăng nhập thay vì nhập tay.
-Hiển thị màu sắc khác nhau cho các trạng thái:
-
-Màu sắc trạng thái: Thiết lập màu sắc khác nhau cho các trạng thái của ticket để dễ dàng phân biệt:
-Chưa xử lý: màu đỏ.
-Đang xử lý: màu xanh lá.
-Đã xử lý: màu cam.
-Cập nhật và tối ưu hóa các hàm và thành phần:
-
-Tách hàm createTicket và updateTicket: Tách hàm createTicket và updateTicket ra từ hàm handleSubmit để mã nguồn trở nên rõ ràng và dễ bảo trì hơn.
+25. Update quản lý ticket:
++ Hiển thị màu sắc khác nhau cho các trạng thái:
++ Màu sắc trạng thái: Thiết lập màu sắc khác nhau cho các trạng thái của ticket để dễ dàng phân biệt:
++ Chưa xử lý: màu cam
++ Đang xử lý: màu xanh lá.
++ Đã xử lý: màu đỏ
++ Cập nhật và tối ưu hóa các hàm và thành phần:
+- Tách hàm createTicket và updateTicket: Tách hàm createTicket và updateTicket ra từ hàm handleSubmit để mã nguồn trở nên rõ ràng và dễ bảo trì hơn.
 Sử dụng SweetAlert: Sử dụng SweetAlert để hiển thị thông báo sau khi thực hiện các hành động (tạo, sửa, xóa ticket).
 Tải và hiển thị danh sách ticket:
-
-Fetch dữ liệu: Sử dụng API để lấy danh sách ticket từ cơ sở dữ liệu và hiển thị trên giao diện người dùng.
-Làm mới danh sách: Sau khi tạo, sửa, hoặc xóa một ticket, danh sách ticket sẽ được làm mới để hiển thị thông tin mới nhất.
-
-
-
-
-
-
-
-
-
+- Fetch dữ liệu: Sử dụng API để lấy danh sách ticket từ cơ sở dữ liệu và hiển thị trên giao diện người dùng.
+- Làm mới danh sách: Sau khi tạo, sửa, hoặc xóa một ticket, danh sách ticket sẽ được làm mới để hiển thị thông tin mới nhất.
+26. Code thêm phần layout:
++ Làm preloaded khi chuyển trang
++ Code fullseen mode
++ Thêm phần contact
++ Thêm footer cho web
++ sidebar menu chứa các mục và chức năng
++ Làm bảng bộ lọc
+27. Chức năng phân trang
++ phân trang cho quản lý người dùng
++ phân trang cho quản lý ticket
+29. Làm chức năng bộ lọc
++ Lọc theo trạng thái và ưu tiên ( quản lý ticket )
++ Lọc theo vai trò ( người dùng )
 
 
 

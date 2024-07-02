@@ -1,102 +1,19 @@
-/* UserManagement.css */
-.user-management-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
-.user-management-navbar {
-    background-color: #f5fd0110;
-    color: rgb(17, 25, 240);
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.user-management-navbar-left {
-    background-color: #025ff5;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    position: absolute;
-    left: 10px;
-    transition: background-color 0.3s;
-}
-
-.user-management-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.user-management-logout-button {
-    background-color: #ff4d4f;
-    border: none;
-    padding: 10px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    position: absolute;
-    right: 10px;
-    transition: background-color 0.3s;
-}
-
-.user-management-sidebar {
-    width: 200px;
-    background-color: #343a40;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    height: 100%;
-    top: 78px;
-}
-
-.user-management-menu {
-    list-style: none;
-    padding: 0;
-}
-
-.user-management-menu-item {
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.user-management-menu-item:hover {
-    background-color: #495057;
-}
-
-.user-management-menu-item svg {
-    margin-right: 8px;
-}
-
-.user-management-content {
-    margin-left: 220px;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
+/* Bảng */
 table {
     width: 100%;
     margin: 20px 0;
+    border-collapse: collapse;
 }
 
 .selected-row {
-    background-color: #48dfd7;
+    background-color: #4652523e;
 }
-
 
 th {
     background-color: #03adf6;
+    color: white;
+    padding: 10px;
+    text-align: left;
 }
 
 th.role-column {
@@ -107,121 +24,154 @@ th.actions-column {
     width: 150px;
 }
 
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Nút và Chọn */
 select {
     width: 100%;
     padding: 4px;
 }
 
-.modal {
+/* Modal */
+/* Thêm kiểu dáng cho user modal */
+.user-modal {
     position: fixed;
-    z-index: 1000;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
-.modal-content {
-    background-color: #f9f9f9;
+.user-modal-content {
+    background-color: #fff;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+.user-modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
     cursor: pointer;
 }
 
-/* Form styling */
-.user-management-form {
-    width: 90%;
-    margin: 20px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    color: #000000;
+.user-management-form .form-group {
+    margin-bottom: 15px;
+}
+
+.user-management-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #007bff;
 }
 
 .user-management-form input,
 .user-management-form select {
-    width: calc(100% - 24px);
+    width: 100%;
     padding: 10px;
-    margin: 10px 0;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .user-management-form button {
     width: 100%;
     padding: 10px;
-    background-color: #1275d8;
+    background-color: #007bff;
     border: none;
     color: white;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .user-management-form button:hover {
     background-color: #0056b3;
 }
 
-.actions-button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    font-size: 14px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Navigation */
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon {
+    margin-right: 10px;
+}
+
+.right {
+    margin-left: auto;
+}
+
+/* Submenu */
+.submenu {
+    background-color: #333;
+    padding: 0;
+    margin-left: 20px;
+    border-radius: 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.submenu.open {
+    max-height: 300px;
+    padding: 10px;
+}
+
+.submenu a {
+    display: block;
     color: white;
+    text-decoration: none;
+    padding: 5px 0;
+    transition: text-decoration 0.3s ease;
+}
+
+.submenu a:hover {
+    text-decoration: underline;
+}
+
+.filter-button {
+    background: none;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 20px;
+    margin-left: 1000px;
 }
 
-.actions-button.edit {
-    background-color: #28a745;
-}
-
-.actions-button.edit:hover {
-    background-color: #218838;
-}
-
-.actions-button.delete {
-    background-color: #dc3545;
-}
-
-.actions-button.delete:hover {
-    background-color: #c82333;
-}
-
-.add-user-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    position: absolute;
-    top: 80px;
-    right: 10px;
-    transition: background-color 0.3s, box-shadow 0.3s;
+.filter-container {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }

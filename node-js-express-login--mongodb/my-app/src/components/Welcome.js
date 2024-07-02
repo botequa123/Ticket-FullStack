@@ -12,7 +12,7 @@ const Welcome = () => {
                 <h1>Chào mừng đến Phong Phú</h1>
                 <h2>Hệ thống tạo Ticket phản hồi</h2>
                 <div className="welcome-links">
-                    <Link to="/Login" className="welcome-link">Login</Link>
+                    <Link to="/Login" className="welcome-link">Chuyển Tiếp</Link>
                 </div>
             </header>
         </div>

@@ -10,7 +10,7 @@ import TicketManagement from './components/TicketManagement';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="wrapper">
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
