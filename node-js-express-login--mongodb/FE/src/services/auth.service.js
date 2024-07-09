@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/";
+const API_URL = "http://192.168.47.3:8080/api/";
 
 class AuthService {
     login(username, password) {
@@ -17,7 +17,7 @@ class AuthService {
 
     logout() {
         localStorage.removeItem("user");
-        window.location.href = "/login";
+        window.location.href = "/";
     }
 
     getCurrentUser() {

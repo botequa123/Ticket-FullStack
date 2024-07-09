@@ -35,26 +35,20 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="login-header">
-                <img src={phongphuLogo} className="company-logo" alt="Phong Phú Logo" />
-                <h1>Trang Đăng Nhập</h1>
-            </div>
             <form onSubmit={handleLogin} className="login-form">
+                <img src={phongphuLogo} className="login-logo" alt="Phong Phú Logo" />
+                <p></p>
                 <div className="input-group">
-                    <label>Tài Khoản:</label>
-                    <input
-                        type="text"
+                    <label htmlFor="username">Tài Khoản:</label>
+                    <input type="text" id="username" name="username" placeholder="Nhập tài khoản"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
+                        onChange={(e) => setUsername(e.target.value)} />
                 </div>
                 <div className="input-group">
-                    <label>Mật khẩu: </label>
-                    <input
-                        type="password"
+                    <label htmlFor="password">Mật Khẩu:</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                        onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <button type="submit" className="login-button">Đăng Nhập</button>
                 {message && <div className="error-message">{message}</div>}

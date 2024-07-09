@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/tickets";
+const API_URL = "http://192.168.47.3:8080/api/tickets";
 
 const getTickets = (page = 1, limit = 10) => {
     return axios.get(`${API_URL}?page=${page}&limit=${limit}`, { headers: authHeader() });

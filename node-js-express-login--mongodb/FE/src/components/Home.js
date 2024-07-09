@@ -17,13 +17,13 @@ const Home = () => {
             const roles = currentUser.roles.map(role => (typeof role === 'string' ? role : role.name));
             setUserRoles(roles);
         } else {
-            navigate("/login");
+            navigate("/");
         }
     }, [navigate]);
 
     const handleLogout = () => {
         authService.logout();
-        navigate("/login");
+        navigate("/");
     };
 
     const SidebarMenu = () => {
@@ -96,7 +96,7 @@ const Home = () => {
                             <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User" />
                         </div>
                         <div className="info">
-                            <span className="d-block">{user && <p>{user.username}</p>}</span>
+                            <p className="d-block">{user && <span>{user.username}</span>}</p>
                         </div>
                     </div>
                     <li className="nav-item">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import userService from "../services/user.service";
 import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,26 @@ const UserManagement = () => {
     const [itemsPerPage] = useState(10);
     const navigate = useNavigate();
 
+    const fetchUsers = useCallback(async (page) => {
+        try {
+            const response = await userService.getUsers(page, itemsPerPage);
+            setUsers(response.data.users);
+            setTotalPages(response.data.totalPages);
+            setCurrentPage(response.data.currentPage);
+        } catch (error) {
+            console.error("Tải lại danh sách người dùng thất bại!", error);
+        }
+    }, [itemsPerPage]);
+
+    const fetchRoles = useCallback(async () => {
+        try {
+            const response = await authService.getRoles();
+            setRoles(response.data);
+        } catch (error) {
+            console.error("Tải lại danh sách vai trò thất bại!", error);
+        }
+    }, []);
+
     useEffect(() => {
         const currentUser = authService.getCurrentUser();
         if (currentUser) {
@@ -33,32 +53,12 @@ const UserManagement = () => {
                 navigate("/Home");
             } else {
                 fetchUsers(currentPage);
-                fetchRoles(currentPage);
+                fetchRoles();
             }
         } else {
-            navigate("/login");
+            navigate("/");
         }
-    }, [navigate, currentPage]);
-
-    const fetchUsers = async (page) => {
-        try {
-            const response = await userService.getUsers(page, itemsPerPage);
-            setUsers(response.data.users);
-            setTotalPages(response.data.totalPages);
-            setCurrentPage(response.data.currentPage);
-        } catch (error) {
-            console.error("Tải lại danh sách người dùng thất bại!", error);
-        }
-    };
-
-    const fetchRoles = async () => {
-        try {
-            const response = await authService.getRoles();
-            setRoles(response.data);
-        } catch (error) {
-            console.error("Tải lại danh sách vai trò thất bại!", error);
-        }
-    };
+    }, [navigate, currentPage, fetchUsers, fetchRoles]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -153,7 +153,7 @@ const UserManagement = () => {
 
     const handleLogout = () => {
         authService.logout();
-        navigate("/login");
+        navigate("/");
     };
     const filteredUsers = selectedRoleFilter
         ? users.filter(user => Array.isArray(user.roles) && user.roles.some(role => role.name === selectedRoleFilter))
@@ -210,9 +210,11 @@ const UserManagement = () => {
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
                 {/* Left navbar links */}
                 <ul className="navbar-nav">
-                    <div className="nav-item">
-                        <a className="nav-link" data-widget="pushmenu" role="button"><i className="fas fa-bars" /></a>
-                    </div>
+                    <li className="nav-item">
+                        <button className="nav-link" data-widget="pushmenu" style={{ background: 'none', border: 'none' }}>
+                            <i className="fas fa-bars" />
+                        </button>
+                    </li>
                     <div className="nav-item d-none d-sm-inline-block">
                         <a href="/home" className="nav-link">Home</a>
                     </div>
@@ -222,6 +224,14 @@ const UserManagement = () => {
                 </ul>
                 {/* Right navbar links */}
                 <ul className="navbar-nav ml-auto">
+                    <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div className="image">
+                            <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User" />
+                        </div>
+                        <div className="info">
+                            <p className="d-block">{loggedInUser && <span>{loggedInUser.username}</span>}</p>
+                        </div>
+                    </div>
                     <div className="nav-item">
                         <button className="nav-link" data-widget="fullscreen" style={{ background: 'none', border: 'none' }}>
                             <i className="fas fa-expand-arrows-alt" />
@@ -245,15 +255,6 @@ const UserManagement = () => {
                     </a>
                     {/* Sidebar */}
                     <div className="sidebar">
-                        {/* Info */}
-                        <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div className="image">
-                                <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User" />
-                            </div>
-                            <div className="info">
-                                <a href='home' className="d-block">{loggedInUser && <span>{loggedInUser.username}</span>}</a>
-                            </div>
-                        </div>
                         {/* Sidebar Menu */}
                         <SidebarMenu />
                         {/* /.sidebar-menu */}
@@ -289,6 +290,7 @@ const UserManagement = () => {
                                 <FontAwesomeIcon icon={faFilter} />
                             </button>
                         </div>
+                        <p>Tổng số người dùng: </p>
                         {isFilterVisible && (
                             <div className="filter-container">
                                 <div className="form-group">

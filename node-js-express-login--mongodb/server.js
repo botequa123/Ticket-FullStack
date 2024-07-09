@@ -1,14 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-const dbConfig = require("./app/config/db.config.js");
+const dbConfig = require("./BE/config/db.config.js");
 
 const app = express();
-const db = require("./app/models");
+const db = require("./BE/models");
 const Role = db.role;
 
 var corsOptions = {
-    origin: "http://localhost:3001"
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
@@ -56,9 +59,9 @@ app.get("/", (req, res) => {
 });
 
 // routes
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
-require('./app/routes/ticket.routes')(app);
+require('./BE/routes/auth.routes')(app);
+require('./BE/routes/user.routes')(app);
+require('./BE/routes/ticket.routes')(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

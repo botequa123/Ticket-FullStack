@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ticketService from "../services/ticket.service";
 import authService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
@@ -31,22 +31,8 @@ const TicketManagement = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const currentUser = authService.getCurrentUser();
-        if (currentUser) {
-            setLoggedInUser(currentUser);
-            const roles = currentUser.roles.map(role => (typeof role === 'string' ? role : role.name));
-            setUserRoles(roles);
-            fetchTickets(currentPage);
-        } else {
-            navigate("/login");
-        }
-    }, [navigate, currentPage]);
-    useEffect(() => {
-        applyFilters();
-    }, [tickets, selectedStatus, selectedPriority]);
-    useEffect(() => {
         const ticketId = currentTicket.id;
-        if (handlingData[ticketId]) {
+        if (ticketId && handlingData[ticketId]) {
             setHandlingContent(handlingData[ticketId].handlingContent);
             setHandler(handlingData[ticketId].handler);
         } else {
@@ -55,13 +41,13 @@ const TicketManagement = () => {
         }
     }, [currentTicket.id, handlingData]);
 
+
     useEffect(() => {
         if (currentTicket) {
             setHandlingContent(currentTicket.handlingContent || '');
             setHandler(currentTicket.handler || '');
         }
     }, [currentTicket]);
-
     const fetchTickets = async (page) => {
         try {
             const response = await ticketService.getTickets(page, itemsPerPage);
@@ -71,7 +57,19 @@ const TicketManagement = () => {
             console.error("Failed to fetch tickets:", error);
         }
     };
-    const applyFilters = () => {
+
+    useEffect(() => {
+        const currentUser = authService.getCurrentUser();
+        if (currentUser) {
+            setLoggedInUser(currentUser);
+            const roles = currentUser.roles.map(role => (typeof role === 'string' ? role : role.name));
+            setUserRoles(roles);
+            fetchTickets(currentPage);
+        } else {
+            navigate("/");
+        }
+    }, [navigate, currentPage]);
+    const applyFilters = useCallback(() => {
         let filtered = tickets;
 
         if (selectedStatus) {
@@ -83,7 +81,10 @@ const TicketManagement = () => {
         }
 
         setFilteredTickets(filtered);
-    };
+    }, [tickets, selectedStatus, selectedPriority]);
+    useEffect(() => {
+        applyFilters();
+    }, [tickets, selectedStatus, selectedPriority, applyFilters]);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCurrentTicket({ ...currentTicket, [name]: value });
@@ -249,7 +250,7 @@ const TicketManagement = () => {
     };
     const handleLogout = () => {
         authService.logout();
-        navigate("/login");
+        navigate("/");
     };
     const toggleFilterVisibility = () => {
         setIsFilterVisible(!isFilterVisible);
@@ -305,9 +306,11 @@ const TicketManagement = () => {
             <nav className="main-header navbar navbar-expand navbar-white navbar-light">
                 {/* Left navbar links */}
                 <ul className="navbar-nav">
-                    <div className="nav-item">
-                        <a className="nav-link" data-widget="pushmenu" ><i className="fas fa-bars" /></a>
-                    </div>
+                    <li className="nav-item">
+                        <button className="nav-link" data-widget="pushmenu" style={{ background: 'none', border: 'none' }}>
+                            <i className="fas fa-bars" />
+                        </button>
+                    </li>
                     <div className="nav-item d-none d-sm-inline-block">
                         <a href="/home" className="nav-link">Home</a>
                     </div>
@@ -317,6 +320,14 @@ const TicketManagement = () => {
                 </ul>
                 {/* Right navbar links */}
                 <ul className="navbar-nav ml-auto">
+                    <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div className="image">
+                            <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User" />
+                        </div>
+                        <div className="info">
+                            <p className="d-block">{loggedInUser && <span>{loggedInUser.username}</span>}</p>
+                        </div>
+                    </div>
                     <div className="nav-item">
                         <button className="nav-link" data-widget="fullscreen" style={{ background: 'none', border: 'none' }}>
                             <i className="fas fa-expand-arrows-alt" />
@@ -340,15 +351,6 @@ const TicketManagement = () => {
                     </a>
                     {/* Sidebar */}
                     <div className="sidebar">
-                        {/* Info */}
-                        <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div className="image">
-                                <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User" />
-                            </div>
-                            <div className="info">
-                                <a href='home' className="d-block">{loggedInUser && <span>{loggedInUser.username}</span>}</a>
-                            </div>
-                        </div>
                         {/* Sidebar Menu */}
                         <SidebarMenu />
                         {/* /.sidebar-menu */}
