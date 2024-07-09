@@ -21,6 +21,7 @@ const UserManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [itemsPerPage] = useState(10);
+    const [totalUsers, setTotalUsers] = useState(0);
     const navigate = useNavigate();
 
     const fetchUsers = useCallback(async (page) => {
@@ -42,6 +43,14 @@ const UserManagement = () => {
             console.error("Tải lại danh sách vai trò thất bại!", error);
         }
     }, []);
+    const fetchTotalUsers = useCallback(async () => {
+        try {
+            const response = await userService.getTotalUsers();
+            setTotalUsers(response.data.totalUsers);
+        } catch (error) {
+            console.error("Không thể tải tổng số người dùng!", error);
+        }
+    }, []);
 
     useEffect(() => {
         const currentUser = authService.getCurrentUser();
@@ -54,11 +63,12 @@ const UserManagement = () => {
             } else {
                 fetchUsers(currentPage);
                 fetchRoles();
+                fetchTotalUsers();
             }
         } else {
             navigate("/");
         }
-    }, [navigate, currentPage, fetchUsers, fetchRoles]);
+    }, [navigate, currentPage, fetchUsers, fetchRoles, fetchTotalUsers]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -99,6 +109,7 @@ const UserManagement = () => {
             }
 
             fetchUsers(currentPage);
+            fetchTotalUsers();
             setCurrentUser({ username: "", email: "", password: "", roles: "" });
             setIsEditing(false);
             setIsModalVisible(false);
@@ -128,6 +139,7 @@ const UserManagement = () => {
                 try {
                     await userService.deleteUser(userId);
                     fetchUsers(currentPage);
+                    fetchTotalUsers();
                     Swal.fire('Đã xóa!', '', 'success');
                 } catch (error) {
                     console.error("Failed to delete user:", error.response ? error.response.data.message : error.message);
@@ -290,7 +302,9 @@ const UserManagement = () => {
                                 <FontAwesomeIcon icon={faFilter} />
                             </button>
                         </div>
-                        <p>Tổng số người dùng: </p>
+                        {totalUsers && (
+                            <strong>Tổng số người dùng: {totalUsers}</strong>
+                        )}
                         {isFilterVisible && (
                             <div className="filter-container">
                                 <div className="form-group">

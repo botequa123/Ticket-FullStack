@@ -56,20 +56,6 @@ exports.findAll = async (req, res) => {
     }
 };
 
-// Find a single Ticket with an id
-exports.findOne = (req, res) => {
-    const id = req.params.id;
-
-    Ticket.findById(id)
-        .then(data => {
-            if (!data)
-                res.status(404).send({ message: "Not found Ticket with id " + id });
-            else res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({ message: "Error retrieving Ticket with id=" + id });
-        });
-};
 
 // Update a Ticket by the id in the request
 exports.update = async (req, res) => {
@@ -127,4 +113,12 @@ exports.delete = (req, res) => {
                 message: "Could not delete Ticket with id=" + id
             });
         });
+};
+exports.getTotalTickets = async (req, res) => {
+    try {
+        const count = await Ticket.countDocuments();
+        res.status(200).send({ totalTickets: count });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
 };

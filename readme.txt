@@ -152,7 +152,7 @@ Tải và hiển thị danh sách ticket:
 29. Làm chức năng bộ lọc
 + Lọc theo trạng thái và ưu tiên ( quản lý ticket )
 + Lọc theo vai trò ( người dùng )
-
+30. Thêm API tính tổng số user và ticket
 
 
 

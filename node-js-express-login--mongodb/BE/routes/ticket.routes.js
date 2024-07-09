@@ -10,18 +10,9 @@ module.exports = function (app) {
         next();
     });
 
-    // Create a new Ticket
     app.post("/api/tickets", [authJwt.verifyToken], controller.create);
-
-    // Retrieve all Tickets
     app.get("/api/tickets", [authJwt.verifyToken], controller.findAll);
-
-    // Retrieve a single Ticket with id
-    app.get("/api/tickets/:id", [authJwt.verifyToken], controller.findOne);
-
-    // Update a Ticket with id
     app.put("/api/tickets/:id", [authJwt.verifyToken, isIT], controller.update);
-
-    // Delete a Ticket with id
     app.delete("/api/tickets/:id", [authJwt.verifyToken, isIT], controller.delete);
+    app.get('/api/tickets/total', [authJwt.verifyToken], controller.getTotalTickets);
 };

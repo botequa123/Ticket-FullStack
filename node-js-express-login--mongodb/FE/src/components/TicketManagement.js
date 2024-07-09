@@ -25,6 +25,7 @@ const TicketManagement = () => {
     const itemsPerPage = 10;
     const [handlingData, setHandlingData] = useState({});
     const [handlingContent, setHandlingContent] = useState('');
+    const [totalTickets, setTotalTickets] = useState(0);
     const [handler, setHandler] = useState('');
 
 
@@ -57,7 +58,14 @@ const TicketManagement = () => {
             console.error("Failed to fetch tickets:", error);
         }
     };
-
+    const fetchTotalTickets = useCallback(async () => {
+        try {
+            const response = await ticketService.getTotalTickets();
+            setTotalTickets(response.data.totalTickets);
+        } catch (error) {
+            console.error("Không thể tải tổng số ticket!", error);
+        }
+    }, []);
     useEffect(() => {
         const currentUser = authService.getCurrentUser();
         if (currentUser) {
@@ -65,10 +73,11 @@ const TicketManagement = () => {
             const roles = currentUser.roles.map(role => (typeof role === 'string' ? role : role.name));
             setUserRoles(roles);
             fetchTickets(currentPage);
+            fetchTotalTickets();
         } else {
             navigate("/");
         }
-    }, [navigate, currentPage]);
+    }, [navigate, currentPage, fetchTotalTickets]);
     const applyFilters = useCallback(() => {
         let filtered = tickets;
 
@@ -160,6 +169,7 @@ const TicketManagement = () => {
 
             setIsModalVisible(false);
             fetchTickets(currentPage);
+            fetchTotalTickets();
         } catch (error) {
             Swal.fire('Error!', 'Có lỗi xảy ra', 'error');
         }
@@ -188,6 +198,7 @@ const TicketManagement = () => {
                         await ticketService.deleteTicket(ticketId);
                         Swal.fire('Đã xóa !', '', 'success');
                         fetchTickets(currentPage);
+                        fetchTotalTickets();
                     } catch (error) {
                         console.error("Lỗi ! Xóa ticket thất bại", error);
                         Swal.fire('Error!', 'Không thể xóa ticket', 'error');
@@ -384,6 +395,11 @@ const TicketManagement = () => {
                         <button onClick={toggleFilterVisibility} className="filter-button">
                             <FontAwesomeIcon icon={faFilter} />
                         </button>
+                        <div>
+                            {totalTickets && (
+                                <strong>Tổng số Ticket: {totalTickets}</strong>
+                            )}
+                        </div>
                         {isFilterVisible && (
                             <div className="filter-container">
                                 <div className="form-group">

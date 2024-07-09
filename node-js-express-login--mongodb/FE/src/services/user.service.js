@@ -23,6 +23,9 @@ class UserService {
     deleteUser(userId) {
         return axios.delete(API_URL + `auth/users/${userId}`, { headers: authHeader() });
     }
+    getTotalUsers = () => {
+        return axios.get(API_URL + "users/total", { headers: authHeader() });
+    };
 }
 
 const userService = new UserService();

@@ -2,22 +2,6 @@ const db = require('../models');
 const User = db.user;
 const Role = db.role;
 const bcrypt = require('bcryptjs');
-exports.userProfile = async (req, res) => {
-    try {
-        const user = await User.findById(req.userId).populate("roles", "-__v");
-        if (!user) {
-            return res.status(404).send({ message: "Không tìm thấy người dùng." });
-        }
-        res.status(200).send({
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            roles: user.roles.map(role => role.name.toUpperCase()),
-        });
-    } catch (err) {
-        res.status(500).send({ message: err.message });
-    }
-};
 
 exports.getUsers = async (req, res) => {
     const { page = 1, limit = 10 } = req.query;
@@ -144,5 +128,13 @@ exports.updateUserRoles = async (req, res) => {
         res.status(200).send({ message: "Cập nhật vai trò thành công" });
     } catch (err) {
         res.status(500).send({ message: err.message });
+    }
+};
+exports.getTotalUsers = async (req, res) => {
+    try {
+        const count = await User.countDocuments();
+        res.status(200).send({ totalUsers: count });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
     }
 };
