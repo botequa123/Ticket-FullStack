@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.47.3:8080/api/";
+const API_URL = window.location.protocol === 'https:'
+    ? process.env.REACT_APP_API_URL_HTTPS
+    : process.env.REACT_APP_API_URL_HTTP;
 
 class AuthService {
     login(username, password) {

@@ -37,7 +37,7 @@ const Login = () => {
         <div className="login-container">
             <form onSubmit={handleLogin} className="login-form">
                 <img src={phongphuLogo} className="login-logo" alt="Phong Phú Logo" />
-                <p></p>
+                <h1></h1>
                 <div className="input-group">
                     <label htmlFor="username">Tài Khoản:</label>
                     <input type="text" id="username" name="username" placeholder="Nhập tài khoản"

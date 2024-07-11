@@ -1,7 +1,9 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://192.168.47.3:8080/api/";
+const API_URL = window.location.protocol === 'https:'
+    ? process.env.REACT_APP_API_URL_HTTPS
+    : process.env.REACT_APP_API_URL_HTTP;
 
 class UserService {
     getUsers(page = 1, limit = 10) {

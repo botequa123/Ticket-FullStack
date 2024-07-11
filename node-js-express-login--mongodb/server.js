@@ -2,11 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const dbConfig = require("./BE/config/db.config.js");
+const fs = require('fs');
+const https = require('https');
+const http = require('http');
+
 
 const app = express();
 const db = require("./BE/models");
 const Role = db.role;
 
+// Cấu hình CORS
 var corsOptions = {
     origin: '*',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -25,6 +30,7 @@ app.use(
     })
 );
 
+// Kết nối tới MongoDB
 db.mongoose
     .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
     .then(() => {
@@ -63,7 +69,17 @@ require('./BE/routes/auth.routes')(app);
 require('./BE/routes/user.routes')(app);
 require('./BE/routes/ticket.routes')(app);
 
+// Đường dẫn tới các file chứng chỉ SSL
+const sslServer = https.createServer({
+    key: fs.readFileSync('./BE/192.168.47.3+1-key.pem'),
+    cert: fs.readFileSync('./BE/192.168.47.3+1.pem')
+}, app);
+
+// Lắng nghe trên cổng 8080 (HTTPS)
+sslServer.listen(443, () => {
+    console.log(`Secure server is running on port 443.`);
+});
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+http.createServer(app).listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
