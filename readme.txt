@@ -145,7 +145,6 @@ Tải và hiển thị danh sách ticket:
 + Thêm phần contact
 + Thêm footer cho web
 + sidebar menu chứa các mục và chức năng
-+ Làm bảng bộ lọc
 27. Chức năng phân trang
 + phân trang cho quản lý người dùng
 + phân trang cho quản lý ticket
@@ -155,6 +154,4 @@ Tải và hiển thị danh sách ticket:
 30. Thêm API tính tổng số user và ticket
 31. Thiết lập cấu hình https cho trang
 + Cài đặt chứng chỉ SSL
-
-
-
+32. Làm chức năng bộ lọc, phân trang cho bộ lọc

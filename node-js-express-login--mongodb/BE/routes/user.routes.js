@@ -17,4 +17,4 @@ module.exports = function (app) {
     app.delete("/api/auth/users/:id", [authJwt.verifyToken, authJwt.isAdmin], controller.deleteUser);
     app.put("/api/auth/users/:id/roles", [authJwt.verifyToken, authJwt.isAdmin], controller.updateUserRoles);
     app.get('/api/users/total', [authJwt.verifyToken, authJwt.isAdmin], controller.getTotalUsers);
-};
+}

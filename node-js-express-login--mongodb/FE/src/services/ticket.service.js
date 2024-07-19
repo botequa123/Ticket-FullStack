@@ -1,13 +1,14 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = window.location.protocol === 'https:'
-    ? process.env.REACT_APP_API_URL_HTTPS
-    : process.env.REACT_APP_API_URL_HTTP;
+const API_URL = process.env.REACT_APP_API_URL;
 
 class TicketService {
-    getTickets = (page = 1, limit = 10) => {
-        return axios.get(`${API_URL}tickets?page=${page}&limit=${limit}`, { headers: authHeader() });
+    getTickets = (page = 1, limit = 10, priority, status) => {
+        let query = `page=${page}&limit=${limit}`;
+        if (priority) query += `&priority=${priority}`;
+        if (status) query += `&status=${status}`;
+        return axios.get(`${API_URL}tickets?${query}`, { headers: authHeader() });
     };
 
     createTicket = (ticket) => {

@@ -24,9 +24,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     cookieSession({
-        name: "bezkoder-session",
+        name: "TriNguyen_session",
         keys: ["COOKIE_SECRET"],
-        httpOnly: true
+        httpsOnly: true
     })
 );
 

@@ -27,7 +27,7 @@ const Home = () => {
     };
 
     const SidebarMenu = () => {
-        const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [isMenuOpen, setIsMenuOpen] = useState(true);
 
         const toggleMenu = () => {
             setIsMenuOpen(!isMenuOpen);

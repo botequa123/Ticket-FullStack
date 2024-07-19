@@ -24,9 +24,9 @@ const UserManagement = () => {
     const [totalUsers, setTotalUsers] = useState(0);
     const navigate = useNavigate();
 
-    const fetchUsers = useCallback(async (page) => {
+    const fetchUsers = useCallback(async (page, roleFilter = '') => {
         try {
-            const response = await userService.getUsers(page, itemsPerPage);
+            const response = await userService.getUsers(page, itemsPerPage, roleFilter);
             setUsers(response.data.users);
             setTotalPages(response.data.totalPages);
             setCurrentPage(response.data.currentPage);
@@ -61,14 +61,14 @@ const UserManagement = () => {
             if (!roles.includes("admin")) {
                 navigate("/Home");
             } else {
-                fetchUsers(currentPage);
+                fetchUsers(currentPage, selectedRoleFilter);
                 fetchRoles();
                 fetchTotalUsers();
             }
         } else {
             navigate("/");
         }
-    }, [navigate, currentPage, fetchUsers, fetchRoles, fetchTotalUsers]);
+    }, [navigate, currentPage, selectedRoleFilter, fetchUsers, fetchRoles, fetchTotalUsers]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -167,13 +167,19 @@ const UserManagement = () => {
         authService.logout();
         navigate("/");
     };
-    const filteredUsers = selectedRoleFilter
-        ? users.filter(user => Array.isArray(user.roles) && user.roles.some(role => role.name === selectedRoleFilter))
-        : users;
-
-
+    const handleFilterChange = (e) => {
+        const role = e.target.value;
+        setSelectedRoleFilter(role);
+        fetchUsers(1, role);
+        setCurrentPage(1);
+    };
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
     const SidebarMenu = () => {
-        const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [isMenuOpen, setIsMenuOpen] = useState(true);
 
         const toggleMenu = () => {
             setIsMenuOpen(!isMenuOpen);
@@ -301,27 +307,20 @@ const UserManagement = () => {
                             <button onClick={() => setIsFilterVisible(!isFilterVisible)} className="filter-button">
                                 <FontAwesomeIcon icon={faFilter} />
                             </button>
+                            {isFilterVisible && (
+                                <div className="filter-container">
+                                    <label htmlFor="roleFilter">Chọn Vai Trò:</label>
+                                    <select id="roleFilter" className="form-control" value={selectedRoleFilter} onChange={handleFilterChange}>
+                                        <option value="">Tất Cả</option>
+                                        {roles.map(role => (
+                                            <option key={role._id} value={role.name}>{role.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                         </div>
                         {totalUsers && (
                             <strong>Tổng số người dùng: {totalUsers}</strong>
-                        )}
-                        {isFilterVisible && (
-                            <div className="filter-container">
-                                <div className="form-group">
-                                    <label htmlFor="roleFilter">Lọc theo vai trò:</label>
-                                    <select
-                                        id="roleFilter"
-                                        value={selectedRoleFilter}
-                                        onChange={(e) => setSelectedRoleFilter(e.target.value)}
-                                        className="form-control"
-                                    >
-                                        <option value="">Tất cả</option>
-                                        <option value="admin">admin</option>
-                                        <option value="IT">IT</option>
-                                        <option value="user">user</option>
-                                    </select>
-                                </div>
-                            </div>
                         )}
                     </div>
                     <div className="card-body">
@@ -336,7 +335,7 @@ const UserManagement = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredUsers.map((user, index) => (
+                                {users.map((user, index) => (
                                     <tr
                                         key={user._id}
                                         onClick={() => handleRowClick(user._id)}
@@ -355,18 +354,19 @@ const UserManagement = () => {
                             </tbody>
                         </table>
                     </div>
+
                     <div className="card-footer clearfix">
                         <ul className="pagination pagination-sm m-0 float-right">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>«</button>
+                                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>«</button>
                             </li>
                             {[...Array(totalPages)].map((_, index) => (
                                 <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                    <button className="page-link" onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>
+                                    <button className="page-link" onClick={() => handlePageChange(index + 1)}>{index + 1}</button>
                                 </li>
                             ))}
                             <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>»</button>
+                                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>»</button>
                             </li>
                         </ul>
                     </div>

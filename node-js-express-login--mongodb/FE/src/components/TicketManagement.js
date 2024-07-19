@@ -9,7 +9,6 @@ import "../styles/TicketManagement.css";
 
 const TicketManagement = () => {
     const [tickets, setTickets] = useState([]);
-    const [filteredTickets, setFilteredTickets] = useState([]);
     const [currentTicket, setCurrentTicket] = useState({ title: "", description: "", department: "IT", priority: "Low", status: "Chưa xử lý", createdDate: "" });
     const [isEditing, setIsEditing] = useState(false);
     const [isViewModalVisible, setIsViewModalVisible] = useState(false);
@@ -18,18 +17,39 @@ const TicketManagement = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [userRoles, setUserRoles] = useState([]);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
-    const [selectedStatus, setSelectedStatus] = useState('');
-    const [selectedPriority, setSelectedPriority] = useState('');
+    const [selectedStatusFilter, setSelectedStatusFilter] = useState('');
+    const [selectedPriorityFilter, setSelectedPriorityFilter] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const itemsPerPage = 10;
+    const [itemsPerPage] = useState(10);
     const [handlingData, setHandlingData] = useState({});
     const [handlingContent, setHandlingContent] = useState('');
     const [totalTickets, setTotalTickets] = useState(0);
     const [handler, setHandler] = useState('');
-
-
     const navigate = useNavigate();
+
+
+
+    const fetchTickets = useCallback(async (page, priorityFilter = '', statusFilter = '') => {
+        try {
+            const response = await ticketService.getTickets(page, itemsPerPage, priorityFilter, statusFilter);
+            setTickets(response.data.tickets);
+            setTotalPages(response.data.totalPages);
+            setCurrentPage(response.data.currentPage);
+        } catch (error) {
+            console.error("Tải lại danh sách Ticket thất bại", error);
+        }
+    }, [itemsPerPage]);
+
+    const fetchTotalTickets = useCallback(async () => {
+        try {
+            const response = await ticketService.getTotalTickets();
+            setTotalTickets(response.data.totalTickets);
+        } catch (error) {
+            console.error("Không thể tải tổng số ticket!", error);
+        }
+    }, []);
+
 
     useEffect(() => {
         const ticketId = currentTicket.id;
@@ -49,51 +69,25 @@ const TicketManagement = () => {
             setHandler(currentTicket.handler || '');
         }
     }, [currentTicket]);
-    const fetchTickets = async (page) => {
-        try {
-            const response = await ticketService.getTickets(page, itemsPerPage);
-            setTickets(response.data.tickets);
-            setTotalPages(response.data.totalPages);
-        } catch (error) {
-            console.error("Failed to fetch tickets:", error);
-        }
-    };
-    const fetchTotalTickets = useCallback(async () => {
-        try {
-            const response = await ticketService.getTotalTickets();
-            setTotalTickets(response.data.totalTickets);
-        } catch (error) {
-            console.error("Không thể tải tổng số ticket!", error);
-        }
-    }, []);
+
+
     useEffect(() => {
         const currentUser = authService.getCurrentUser();
         if (currentUser) {
             setLoggedInUser(currentUser);
             const roles = currentUser.roles.map(role => (typeof role === 'string' ? role : role.name));
             setUserRoles(roles);
-            fetchTickets(currentPage);
+            fetchTickets(currentPage, selectedStatusFilter, selectedPriorityFilter);
             fetchTotalTickets();
         } else {
             navigate("/");
         }
-    }, [navigate, currentPage, fetchTotalTickets]);
-    const applyFilters = useCallback(() => {
-        let filtered = tickets;
+    }, [navigate, currentPage, fetchTickets, fetchTotalTickets, selectedStatusFilter, selectedPriorityFilter]);
 
-        if (selectedStatus) {
-            filtered = filtered.filter(ticket => ticket.status === selectedStatus);
-        }
-
-        if (selectedPriority) {
-            filtered = filtered.filter(ticket => ticket.priority === selectedPriority);
-        }
-
-        setFilteredTickets(filtered);
-    }, [tickets, selectedStatus, selectedPriority]);
     useEffect(() => {
-        applyFilters();
-    }, [tickets, selectedStatus, selectedPriority, applyFilters]);
+        fetchTickets(currentPage, selectedPriorityFilter, selectedStatusFilter);
+    }, [selectedStatusFilter, selectedPriorityFilter, fetchTickets, currentPage]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCurrentTicket({ ...currentTicket, [name]: value });
@@ -267,8 +261,26 @@ const TicketManagement = () => {
         setIsFilterVisible(!isFilterVisible);
     };
 
+    const handleStatusFilterChange = (e) => {
+        setSelectedStatusFilter(e.target.value);
+        fetchTickets(currentPage, selectedPriorityFilter);
+        setCurrentPage(1);
+    };
+
+    const handlePriorityFilterChange = (e) => {
+        setSelectedPriorityFilter(e.target.value);
+        fetchTickets(currentPage, selectedStatusFilter);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     const SidebarMenu = () => {
-        const [isMenuOpen, setIsMenuOpen] = useState(false);
+        const [isMenuOpen, setIsMenuOpen] = useState(true);
 
         const toggleMenu = () => {
             setIsMenuOpen(!isMenuOpen);
@@ -391,46 +403,36 @@ const TicketManagement = () => {
                 {/* Main content */}
                 <section className="content">
                     <div className="container-fluid">
-                        <button className="btn btn-primary mb-3" onClick={handleAddNewTicket}>Thêm Ticket</button>
-                        <button onClick={toggleFilterVisibility} className="filter-button">
-                            <FontAwesomeIcon icon={faFilter} />
-                        </button>
-                        <div>
-                            {totalTickets && (
-                                <strong>Tổng số Ticket: {totalTickets}</strong>
+                        <div className="header-buttons">
+                            <button className="btn btn-primary mb-3" onClick={handleAddNewTicket}>Thêm Ticket</button>
+                            <button onClick={toggleFilterVisibility} className="filter-button">
+                                <FontAwesomeIcon icon={faFilter} />
+                            </button>
+                            {isFilterVisible && (
+                                <div className="filter-options">
+                                    <div className="filter-container">
+                                        <label htmlFor="roleFilter">Trạng thái:</label>
+                                        <select id="statusFilter" value={selectedStatusFilter} onChange={handleStatusFilterChange}>
+                                            <option value="">Tất cả</option>
+                                            <option value="Chưa xử lý">Chưa xử lý</option>
+                                            <option value="Đang xử lý">Đang xử lý</option>
+                                            <option value="Đã xử lý">Đã xử lý</option>
+                                        </select>
+                                    </div>
+                                    <div className="filter-container">
+                                        <label htmlFor="roleFilter">Độ ưu tiên:</label>
+                                        <select id="priorityFilter" value={selectedPriorityFilter} onChange={handlePriorityFilterChange}>
+                                            <option value="">Tất cả</option>
+                                            <option value="Low">Low</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="High">High</option>
+                                        </select>
+                                    </div>
+                                </div>
                             )}
                         </div>
-                        {isFilterVisible && (
-                            <div className="filter-container">
-                                <div className="form-group">
-                                    <label htmlFor="filter-status">Lọc theo trạng thái:</label>
-                                    <select
-                                        id="filter-status"
-                                        value={selectedStatus}
-                                        onChange={(e) => setSelectedStatus(e.target.value)}
-                                        className="form-control"
-                                    >
-                                        <option value="">Tất cả</option>
-                                        <option value="Chưa xử lý">Chưa xử lý</option>
-                                        <option value="Đang xử lý">Đang xử lý</option>
-                                        <option value="Đã xử lý">Đã xử lý</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="filter-priority">Lọc theo ưu tiên:</label>
-                                    <select
-                                        id="filter-priority"
-                                        value={selectedPriority}
-                                        onChange={(e) => setSelectedPriority(e.target.value)}
-                                        className="form-control"
-                                    >
-                                        <option value="">Tất cả</option>
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                    </select>
-                                </div>
-                            </div>
+                        {totalTickets && (
+                            <strong>Tổng số tickets: {totalTickets}</strong>
                         )}
                         <table className="table table-bordered">
                             <thead>
@@ -446,7 +448,7 @@ const TicketManagement = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredTickets.map((ticket, index) => (
+                                {tickets.map((ticket, index) => (
                                     <tr
                                         key={ticket._id}
                                         onClick={() => handleRowClick(ticket._id)}
@@ -473,15 +475,15 @@ const TicketManagement = () => {
                     <div className="card-footer clearfix">
                         <ul className="pagination pagination-sm m-0 float-right">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>«</button>
+                                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>«</button>
                             </li>
                             {[...Array(totalPages)].map((_, index) => (
                                 <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                                    <button className="page-link" onClick={() => setCurrentPage(index + 1)}>{index + 1}</button>
+                                    <button className="page-link" onClick={() => handlePageChange(index + 1)}>{index + 1}</button>
                                 </li>
                             ))}
                             <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>»</button>
+                                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>»</button>
                             </li>
                         </ul>
                     </div>

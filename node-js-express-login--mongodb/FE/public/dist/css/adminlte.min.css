@@ -5139,6 +5139,7 @@ input[type=submit].btn-block {
 }
 
 .navbar-expand .navbar-nav .nav-link {
+    margin-top: 1rem;
     padding-right: 1rem;
     padding-left: 1rem
 }
@@ -13308,6 +13309,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 .navbar-light .btn-navbar,
 .navbar-light .form-control-navbar {
+    margin-top: 1rem;
     background-color: #dadfe4;
     border-color: #ced4da
 }
@@ -13543,6 +13545,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 .user-panel,
 .user-panel .info {
+    margin-top: 0.3rem;
     overflow: hidden;
     white-space: nowrap
 }

@@ -22,6 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:http": "cross-env PORT=3002 HTTPS=false react-scripts start",
+    "start:both": "concurrently \"npm run start:https\" \"npm run start:http\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
   }
 }

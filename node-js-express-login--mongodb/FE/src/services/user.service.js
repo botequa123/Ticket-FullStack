@@ -1,13 +1,15 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = window.location.protocol === 'https:'
-    ? process.env.REACT_APP_API_URL_HTTPS
-    : process.env.REACT_APP_API_URL_HTTP;
+const API_URL = process.env.REACT_APP_API_URL;
 
 class UserService {
-    getUsers(page = 1, limit = 10) {
-        return axios.get(API_URL + `auth/users?page=${page}&limit=${limit}`, { headers: authHeader() });
+    getUsers(page = 1, limit = 10, role = '') {
+        let url = `${API_URL}auth/users?page=${page}&limit=${limit}`;
+        if (role) {
+            url += `&role=${role}`;
+        }
+        return axios.get(url, { headers: authHeader() });
     }
 
     getRoles() {

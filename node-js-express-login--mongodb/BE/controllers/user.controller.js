@@ -4,16 +4,26 @@ const Role = db.role;
 const bcrypt = require('bcryptjs');
 
 exports.getUsers = async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, role } = req.query;
 
     try {
-        const users = await User.find()
+        let query = {};
+        if (role) {
+            const roleDoc = await Role.findOne({ name: role });
+            if (roleDoc) {
+                query.roles = roleDoc._id;
+            } else {
+                return res.status(404).send({ message: "Vai trò không tìm thấy" });
+            }
+        }
+
+        const users = await User.find(query)
             .populate("roles", "-__v")
             .limit(limit * 1)
             .skip((page - 1) * limit)
             .exec();
 
-        const count = await User.countDocuments();
+        const count = await User.countDocuments(query);
 
         res.status(200).send({
             users,

@@ -28,13 +28,11 @@ exports.create = async (req, res) => {
 };
 
 
-// Retrieve all Tickets from the database.
+// Retrieve all Tickets from the database with filters for priority and status
 exports.findAll = async (req, res) => {
-    const { page = 1, limit = 10, title, department, priority, status } = req.query;
+    const { page = 1, limit = 10, priority, status } = req.query;
 
     let filter = {};
-    if (title) filter.title = { $regex: new RegExp(title, "i") };
-    if (department) filter.department = department;
     if (priority) filter.priority = priority;
     if (status) filter.status = status;
 
@@ -54,8 +52,7 @@ exports.findAll = async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
-};
-
+}
 
 // Update a Ticket by the id in the request
 exports.update = async (req, res) => {
