@@ -60,7 +60,7 @@ async function initial() {
     }
 }
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
     res.json({ message: "Welcome " });
 });
 

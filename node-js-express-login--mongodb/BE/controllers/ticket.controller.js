@@ -111,7 +111,7 @@ exports.delete = (req, res) => {
             });
         });
 };
-exports.getTotalTickets = async (req, res) => {
+exports.getTotalTickets = async (_req, res) => {
     try {
         const count = await Ticket.countDocuments();
         res.status(200).send({ totalTickets: count });

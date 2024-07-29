@@ -263,13 +263,13 @@ const TicketManagement = () => {
 
     const handleStatusFilterChange = (e) => {
         setSelectedStatusFilter(e.target.value);
-        fetchTickets(currentPage, selectedPriorityFilter);
+        fetchTickets(1, currentPage, selectedPriorityFilter);
         setCurrentPage(1);
     };
 
     const handlePriorityFilterChange = (e) => {
         setSelectedPriorityFilter(e.target.value);
-        fetchTickets(currentPage, selectedStatusFilter);
+        fetchTickets(1, currentPage, selectedStatusFilter);
         setCurrentPage(1);
     };
 

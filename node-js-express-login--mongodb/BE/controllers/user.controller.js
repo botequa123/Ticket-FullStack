@@ -95,7 +95,7 @@ exports.updateUser = async (req, res) => {
             return res.status(404).send({ message: "Không tìm thấy người dùng." });
         }
 
-        // Kiểm tra trùng lặp tài khoản hoặc email
+        // Kiểm tra trùng lặp tài khoản hoặc email, user
         if (username || email) {
             const existingUser = await User.findOne({
                 $or: [
@@ -140,7 +140,7 @@ exports.updateUserRoles = async (req, res) => {
         res.status(500).send({ message: err.message });
     }
 };
-exports.getTotalUsers = async (req, res) => {
+exports.getTotalUsers = async (_req, res) => {
     try {
         const count = await User.countDocuments();
         res.status(200).send({ totalUsers: count });
