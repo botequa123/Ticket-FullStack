@@ -576,6 +576,7 @@ const TicketManagement = () => {
                                                         placeholder="Nội dung xử lý"
                                                         value={handlingContent || ""}
                                                         onChange={handleInputChange}
+                                                        required
                                                     />
                                                 </label>
                                             </div>
@@ -587,6 +588,7 @@ const TicketManagement = () => {
                                                         placeholder="Người xử lý"
                                                         value={handler || ""}
                                                         onChange={handleInputChange}
+                                                        required
                                                     />
                                                 </label>
                                             </div>

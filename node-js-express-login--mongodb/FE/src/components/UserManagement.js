@@ -97,7 +97,7 @@ const UserManagement = () => {
                 }
 
                 await userService.updateUser(updatedUser._id, updatedUser);
-                Swal.fire('Đã cập nhật!', '', 'success');
+                Swal.fire('Đã cập nhật người dùng!', '', 'success');
             } else {
                 if (!currentUser.password) {
                     Swal.fire('Lỗi!', 'Mật khẩu là bắt buộc cho người dùng mới.', 'error');
@@ -105,7 +105,7 @@ const UserManagement = () => {
                 }
 
                 await userService.createUser(currentUser);
-                Swal.fire('Đã tạo!', '', 'success');
+                Swal.fire('Đã tạo người dùng!', '', 'success');
             }
 
             fetchUsers(currentPage);
