@@ -657,5 +657,4 @@ const TicketManagement = () => {
         </div>
     );
 };
-
 export default TicketManagement;

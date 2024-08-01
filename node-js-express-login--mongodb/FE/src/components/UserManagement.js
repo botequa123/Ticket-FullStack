@@ -451,5 +451,4 @@ const UserManagement = () => {
         </div>
     );
 };
-
 export default UserManagement;
